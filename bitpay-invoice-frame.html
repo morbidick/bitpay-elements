@@ -12,7 +12,7 @@
     <iframe
       id="iframe"
       src="[[ _invoiceFrameUrl ]]"
-      hidden$="[[ !_invoiceFrameUrl ]]"
+      hidden$="[[ !invoice ]]"
       frameBorder="0"
       scrolling="no"
       allowtransparency="true"
@@ -106,7 +106,7 @@
         if (url) {
           return `${url}&view=iframe${dark ? '&theme=dark' : ''}`;
         } else {
-          return null;
+          return 'about:blank';
         }
       }
 
