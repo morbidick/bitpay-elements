@@ -21,6 +21,7 @@ Create and show [bitpay](https://bitpay.com) invoices.
 -->
 
 ```html
+<template><dom-bind><template is="dom-bind">
 <bitpay-invoice-create
   auto
   testnet
@@ -31,6 +32,7 @@ Create and show [bitpay](https://bitpay.com) invoices.
 <bitpay-invoice-frame
   invoice="{{ invoice }}"
 ></bitpay-invoice-frame>
+</template></dom-bind></template>
 ```
 
 ### \<bitpay-invoice-create\>
