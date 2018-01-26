@@ -114,7 +114,7 @@
         // bail if auto is disabled
         if (!this.auto) { return false; };
         this.reset();
-        this.create().catch((error) => { console.log("catching", error); this._error = error });
+        this.create().catch((error) => { this._error = error });
       }
 
       // request invoice, returns a promise
