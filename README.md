@@ -7,21 +7,7 @@ Create and show [bitpay](https://bitpay.com) invoices.
 
 ## Components
 
-<!--
-```
-<custom-element-demo>
-  <template>
-    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="bitpay-invoice-create.html">
-    <link rel="import" href="bitpay-invoice-frame.html">
-    <next-code-block></next-code-block>
-  </template>
-</custom-element-demo>
-```
--->
-
 ```html
-<template><dom-bind><template is="dom-bind">
 <bitpay-invoice-create
   auto
   testnet
@@ -32,7 +18,6 @@ Create and show [bitpay](https://bitpay.com) invoices.
 <bitpay-invoice-frame
   invoice="{{ invoice }}"
 ></bitpay-invoice-frame>
-</template></dom-bind></template>
 ```
 
 ### \<bitpay-invoice-create\>
