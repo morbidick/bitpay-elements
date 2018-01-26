@@ -1,0 +1,123 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="bitpay-invoice-frame">
+  <template>
+    <style>
+      #iframe {
+        width: 100%;
+        max-width: 500px;
+        height: 150px;
+      }
+    </style>
+    <iframe
+      id="iframe"
+      src="[[ _invoiceFrameUrl ]]"
+      hidden$="[[ !_invoiceFrameUrl ]]"
+      frameBorder="0"
+      scrolling="no"
+      allowtransparency="true"
+    ></iframe>
+  </template>
+
+  <script>
+    /**
+     * Show bitpay invoice in iframe
+     * @customElement
+     * @polymer
+     * @extends {Polymer.Element}
+     */
+    class BitpayInvoiceFrame extends Polymer.Element {
+      static get is() { return 'bitpay-invoice-frame'; }
+
+      static get properties() {
+        return {
+          // invoice to show (expects at least {url} as bitpay returns)
+          invoice: {
+            type: Object,
+          },
+          // invoice url for iframe
+          _invoiceFrameUrl: {
+            type: String,
+            computed: "__invoiceFrameUrl(invoice.url, dark)",
+          },
+          // whether to use dark theme (transparent background)
+          dark: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+          },
+          // invoice status
+          status: {
+            type: String,
+            notify: true,
+          },
+          // whether events bubble
+          bubbles: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+          },
+          // postMessage handler
+          _handler: {
+            type: Object,
+          },
+          // event domain for the handler
+          _eventOrigin: {
+            type: String,
+            computed: "__originFromUrl(invoice.url)",
+          },
+        };
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        this._handler = this.__handler.bind(this);
+        window.addEventListener("message", this._handler);
+      }
+
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        window.removeEventListener("message", this._handler);
+        this._handler = null;
+      }
+
+      __handler(event) {
+        // bail for wrong origin
+        if (event.origin !== this._eventOrigin) { return; }
+
+        if (event.data && event.data.status) {
+          this.status = event.data.status;
+          this.invoice.status = event.data.status;
+
+          if (event.data.status === "paid") {
+            /**
+             * @event bitpay-invoice-paid Fired on successful payment
+             */
+            this.dispatchEvent(new CustomEvent('bitpay-invoice-paid', {
+              detail: this.invoice,
+              bubbles: this.bubbles,
+              composed: true,
+            }));
+          }
+        }
+      }
+
+      __invoiceFrameUrl(url, dark) {
+        if (url) {
+          return `${url}&view=iframe${dark ? '&theme=dark' : ''}`;
+        } else {
+          return null;
+        }
+      }
+
+      __originFromUrl(url) {
+        if (!url) { return null; };
+
+        let link = document.createElement('a');
+        link.setAttribute('href', url);
+        return `${link.protocol}//${link.hostname}`
+      }
+    }
+    customElements.define(BitpayInvoiceFrame.is, BitpayInvoiceFrame);
+  </script>
+</dom-module>

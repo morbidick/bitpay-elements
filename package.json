@@ -1,0 +1,27 @@
+{
+  "name": "bitpay-elements",
+  "description": "Create and show bitpay invoices",
+  "author": "morbidick",
+  "license": "MIT",
+  "main": [
+    "bitpay-invoice-create.html",
+    "bitpay-invoice-frame.html"
+  ],
+  "dependencies": {
+    "bower": "^1.8.0",
+    "polymer-cli": "^1.0.0"
+  },
+  "scripts": {
+    "start": "npm run serve",
+    "init": "polymer init",
+    "serve": "polymer serve",
+    "build": "polymer build",
+    "analyze": "polymer analyze > analysis.json",
+    "lint": "polymer lint",
+    "test": "polymer test",
+    "postinstall": "bower install",
+    "wcinstall": "bower install --save",
+    "wcupdate": "bower update"
+  },
+  "devDependencies": {}
+}

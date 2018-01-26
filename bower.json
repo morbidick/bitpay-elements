@@ -1,0 +1,21 @@
+{
+  "name": "bitpay-elements",
+  "main": ["bitpay-invoice-create.html", "bitpay-invoice-frame.html"],
+  "license": "MIT",
+  "demos": {
+    "Demo": "demo/index.html"
+  },
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0"
+  },
+  "devDependencies": {
+    "show-json": "ryanburns23/show-json#^2.0.0",
+    "iron-component-page": "PolymerElements/iron-component-page#^3.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "^2.0.0"
+  }
+}

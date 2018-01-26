@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>bitpay-elements demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
+    <link rel="import" href="../../show-json/show-json.html">
+    <link rel="import" href="../bitpay-invoice-create.html">
+    <link rel="import" href="../bitpay-invoice-frame.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>bitpay-invoice demo</h3>
+      <demo-snippet>
+        <template>
+          <dom-bind>
+            <template is="dom-bind">
+              <bitpay-invoice-create
+                auto
+                testnet
+                donation
+                reference="testcode"
+                amount="12.34"
+                token="B75pQ5ZyM2CUCJbnH6zajY5pndzpgVxG1YpVd6a3Ljqh"
+                invoice="{{ response }}"
+                buyer='{"email": "bitpay@example.com"}'
+              ></bitpay-invoice-create>
+              <bitpay-invoice-frame
+                invoice="{{ response }}"
+              ></bitpay-invoice-frame>
+              <show-json hide-copy-button json="{{ response }}"></show-json>
+            </template>
+          </dom-bind>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

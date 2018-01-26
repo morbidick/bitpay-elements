@@ -1,0 +1,177 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="bitpay-invoice-create">
+  <template>
+    <style>
+      .error {
+        font-size: 0.8em;
+        color: var(--error-color, red);
+      }
+    </style>
+    <div class="error">[[ _error ]]</div>
+  </template>
+
+  <script>
+    /**
+     * Create Bitpay Invoices https://test.bitpay.com/api/#resource-Invoices
+     * @customElement
+     * @polymer
+     * @extends {Polymer.Element}
+     */
+    class BitpayInvoiceCreate extends Polymer.Element {
+      static get is() { return 'bitpay-invoice-create'; }
+
+      static get properties() {
+        return {
+          // whether to automaticly create invoice on change
+          auto: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+          },
+          // Bitpay POS auth token, signing disabled (https://bitpay.com/dashboard/merchant/api-tokens)
+          token: {
+            type: String,
+          },
+          // the full invoice object
+          invoice: {
+            type: Object,
+            notify: true,
+          },
+          // whether to use live or test api (https://bitpay.com/docs/testing)
+          testnet: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true,
+          },
+          // amount to charge
+          amount: {
+            type: Number,
+          },
+          // ISO 4217 3-character currency code
+          currency: {
+            type: String,
+            value: "EUR",
+          },
+          // buyer object for refund, when email is set its not asked by bitpay (optional)
+          buyer: {
+            type: Object,
+          },
+          // your reference to the payment (transmitted via posData field)
+          reference: {
+            type: String,
+          },
+          // Indicates whether items are physical goods.
+          physical: {
+            type: Boolean,
+            value: false,
+          },
+          // sets item code to donation
+          donation: {
+            type: Boolean,
+            value: false,
+          },
+          // Webhook URL for instant payment notification (IPN)
+          notify: {
+            type: String,
+          },
+          // computed test or live url
+          _apiUrl: {
+            type: String,
+            computed: "__apiUrl(testnet)",
+          },
+          // api headers Object (https://test.bitpay.com/api/#making-requests)
+          _apiHeaders: {
+            type: Object,
+            value: () => {
+              return new Headers({
+                "Content-Type": "application/json",
+                'Accept': 'application/json',
+                "x-accept-version": "2.0.0",
+              });
+            },
+          },
+          // last encountered error
+          _error: {
+            type: String,
+          },
+          // Is true when the request is processing
+          loading: {
+            type: Boolean,
+            value: false,
+            notify: true,
+          },
+        };
+      }
+
+      static get observers() {
+        return [
+          "_update(token, price, currency)",
+        ];
+      }
+
+      _update() {
+        // bail if auto is disabled
+        if (!this.auto) { return false; };
+        this.reset();
+        this.create().catch((error) => { console.log("catching", error); this._error = error });
+      }
+
+      // request invoice, returns a promise
+      async create() {
+        if (!this.amount) { throw new Error('amount is required'); };
+        if (!this.token) { throw new Error('token is required'); };
+        this.loading = true;
+
+        let payload = {
+          'token': this.token,
+          'price': this.amount,
+          'currency': this.currency,
+          'buyer': this.buyer,
+          'posData': this.reference,
+          'physical': this.physical,
+          'notificationURL': this.notify,
+          'itemCode': this.donation? 'bitcoindonation' : null,
+          'redirectURL': document.location.href,
+        };
+
+        var body;
+        try {
+          let response = await fetch(`${this._apiUrl}/invoices`, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: this._apiHeaders,
+          });
+          body = await response.json();
+        } catch(error) {
+          this.loading = false;
+          throw new Error('Connection to Bitpay api failed.');
+        }
+
+        this.loading = false;
+        if (body.data && body.data.id) {
+          this.invoice = body.data;
+          return body.data;
+        } else if (body.error) {
+          throw new Error(body.error);
+        } else {
+          throw new Error('unknow bitpay response');
+        }
+      }
+
+      __apiUrl(test) {
+        if (test) {
+          return "https://test.bitpay.com";
+        } else {
+          return "https://bitpay.com";
+        }
+      }
+
+      reset() {
+        this._error = null;
+        this.invoice = null;
+      }
+    }
+    customElements.define(BitpayInvoiceCreate.is, BitpayInvoiceCreate);
+  </script>
+</dom-module>
