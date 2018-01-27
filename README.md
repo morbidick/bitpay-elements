@@ -11,6 +11,7 @@ Create and show [bitpay](https://bitpay.com) invoices.
 ```
 <custom-element-demo>
   <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="bitpay-invoice-create.html">
     <link rel="import" href="bitpay-invoice-frame.html">
     <dom-bind>
