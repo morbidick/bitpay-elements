@@ -119,7 +119,7 @@
 
       // request invoice, returns a promise
       async create() {
-        if (!this.amount) { throw new Error('amount is required'); };
+        if (!(this.amount && parseFloat(this.amount) > 0)) { throw new Error('amount is required'); };
         if (!this.token) { throw new Error('token is required'); };
         this.loading = true;
 
