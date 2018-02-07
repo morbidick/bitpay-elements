@@ -51,7 +51,7 @@
           // ISO 4217 3-character currency code
           currency: {
             type: String,
-            value: "EUR",
+            value: 'EUR',
           },
           // buyer object for refund, when email is set its not asked by bitpay (optional)
           buyer: {
@@ -78,16 +78,16 @@
           // computed test or live url
           _apiUrl: {
             type: String,
-            computed: "__apiUrl(testnet)",
+            computed: '__apiUrl(testnet)',
           },
           // api headers Object (https://test.bitpay.com/api/#making-requests)
           _apiHeaders: {
             type: Object,
             value: () => {
               return new Headers({
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                "x-accept-version": "2.0.0",
+                'x-accept-version': '2.0.0',
               });
             },
           },
@@ -106,7 +106,7 @@
 
       static get observers() {
         return [
-          "_update(token, amount, currency)",
+          '_update(token, amount, currency)',
         ];
       }
 
@@ -161,9 +161,9 @@
 
       __apiUrl(test) {
         if (test) {
-          return "https://test.bitpay.com";
+          return 'https://test.bitpay.com';
         } else {
-          return "https://bitpay.com";
+          return 'https://bitpay.com';
         }
       }
 
