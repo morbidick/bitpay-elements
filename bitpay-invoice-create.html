@@ -135,7 +135,7 @@
           'redirectURL': document.location.href,
         };
 
-        var body;
+        let body;
         try {
           let response = await fetch(`${this._apiUrl}/invoices`, {
             method: 'POST',
