@@ -1,7 +1,7 @@
 # Polymer 2 Bitpay Elements
 
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/morbidick/bitpay-elements)
-[![Build Status](https://travis-ci.org/morbidick/bitpay-elements.svg?branch=master)](https://travis-ci.org/morbidick/bitpay-elements)
+[![Build Status](https://travis-ci.org/morbidick/bitpay-elements.svg?branch=master)](https://travis-ci.org/morbidick/bitpay-elements) [![Greenkeeper badge](https://badges.greenkeeper.io/morbidick/bitpay-elements.svg)](https://greenkeeper.io/)
 
 Create and show [bitpay](https://bitpay.com) invoices.
 
