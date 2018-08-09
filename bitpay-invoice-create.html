@@ -144,11 +144,11 @@
           });
           body = await response.json();
         } catch(error) {
-          this.loading = false;
           throw new Error('Connection to Bitpay api failed.');
+        } finally {
+          this.loading = false;
         }
 
-        this.loading = false;
         if (body.data && body.data.id) {
           this.invoice = body.data;
           return body.data;
